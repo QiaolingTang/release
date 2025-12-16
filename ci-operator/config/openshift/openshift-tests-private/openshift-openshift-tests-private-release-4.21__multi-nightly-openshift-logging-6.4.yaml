@@ -88,6 +88,25 @@ tests:
     - ref: install-operators
     - chain: openshift-e2e-test-logging-qe
     workflow: cucushift-installer-rehearse-azure-ipi
+- as: aws-ipi-efa-pg-mini-perm-f28-destructive
+  cron: 30 14 5 * *
+  steps:
+    cluster_profile: aws-1-qe
+    env:
+      AWS_INSTALL_USE_MINIMAL_PERMISSIONS: "yes"
+      BASE_DOMAIN: qe.devcluster.openshift.com
+    test:
+    - as: sleep-xhours
+      commands: sleep 2h
+      from: cli
+      resources:
+        limits:
+          memory: 200Mi
+        requests:
+          cpu: 50m
+          memory: 200Mi
+      timeout: 2h5m0s
+    workflow: cucushift-installer-rehearse-aws-ipi-efa-pg
 zz_generated_metadata:
   branch: release-4.21
   org: openshift
